@@ -38,9 +38,9 @@ void print_gdt_content(gdt_reg_t gdtr_ptr) {
 
 
 void set_gdt_entry(seg_desc_t *gdt, int num, uint32_t base, uint32_t limit, uint8_t type, uint8_t s, uint8_t dpl, uint8_t p, uint8_t avl, uint8_t l, uint8_t d, uint8_t g) {
-    gdt[num].base_1 = base ;
-    gdt[num].base_2 = base ;
-    gdt[num].base_3 = base ;
+    gdt[num].base_1 = base & 0xFFFF;
+    gdt[num].base_2 = (base >> 16) & 0xFF;
+    gdt[num].base_3 = (base >> 24) & 0xFF;
 
     gdt[num].limit_1 = (limit & 0xFFFF);
     gdt[num].limit_2 = (limit >> 16) & 0x0F;
@@ -88,11 +88,12 @@ void tp() {
     set_gdt_entry(gdt, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     set_gdt_entry(gdt, 1, 0, 0xFFFFFFFF, 0xb, 1, 0, 1, 0, 0, 1, 1);
     set_gdt_entry(gdt, 2, 0, 0xFFFFFFFF, 0x3, 1, 0, 1, 0, 0, 1, 1);
+    set_gdt_entry(gdt, 3, 0x600000, 0xFFFFFFFF, 0x3, 1, 0, 1, 0, 0, 1, 1);
 
     gdt_reg_t new_gdt_reg;
 
     new_gdt_reg.addr = (uint32_t)gdt;
-    new_gdt_reg.limit = (sizeof(seg_desc_t) * 3) - 1;
+    new_gdt_reg.limit = (sizeof(seg_desc_t) * 4) - 1;
 
     set_gdtr(new_gdt_reg);
 
