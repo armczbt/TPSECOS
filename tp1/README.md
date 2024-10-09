@@ -39,6 +39,8 @@ point d'entrée du noyau.
   de base de la GDT en cours d'utilisation ainsi que sa "limite" (type utile :
   `gdt_reg_t`).**
 
+  <span style='color:red'>SGDT (Store Global Descriptor Table) sert à stocker l'adresse de la base et la limite de la GDT. Paramètre : adresse de stockage de l'adresse de base et la limite de la GDT. Type == gdt_reg_t</span>
+
 **Q2\* :  Dans [`tp.c`](./tp.c), un exemple d'implémentation d'affichage du
   contenu de table de type GDT est fournie (fonction `print_gdt_content`).
   L'utiliser pour afficher le contenu de la GDT courante.**
