@@ -41,4 +41,24 @@ void tp() {
     get_gdtr(gdt_reg);
 
     print_gdt_content(gdt_reg);
+
+    uint16_t cs,ds,ss,es,fs,gs;
+
+    ss = get_ss();
+    ds = get_ds();
+    es = get_es();
+    fs = get_fs();
+    gs = get_gs();
+    cs = get_cs();
+
+    debug("SS:%d\n",ss);
+    debug("DS:%d\n",ds);
+    debug("ES:%d\n",es);
+    debug("FS:%d\n",fs);
+    debug("GS:%d\n",gs);
+    debug("CS:%d\n",cs);
+
+
+
+    
 }
