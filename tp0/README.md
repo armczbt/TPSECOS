@@ -47,6 +47,8 @@ kernel mem [0x302010 - 0x303820]
 déterminer la taille de la section `.mbh`  et `.stack` et en déduire d'où
 provient la valeur de point d'entrée à `0x302010` au lieu de `0x300000`.**
 
+<span style="color:#ff7575">On a dans le linker qu'on load d'abord .mbh et après .stack. Avec readelf, on voit que le premier LOAD (mbh) a une memSize de _0x000c0_(12octets) et que le deuxième LOAD (stack) a une memSize de _0x2000 (8192 octets)_. De plus on init le kernel après ça donc c'est pour ça que le point d'entrée est là </span>.
+
 Note : il est possible de s'aider également de la page wiki sur les options de [linkage](https://github.com/agantet/secos-ng/wiki/Tooling#options-de-linkage).
 
 
@@ -81,6 +83,8 @@ comme celle ci-dessous et l'afficher dans les logs de debug de SECOS :**
 [0xfffc0000 - 0xffffffff] MULTIBOOT_MEMORY_RESERVED
 ```
 
+<span style="color:#ff7575">fait</span>
+
 ## Utilisation d'adresses mémoire sans configuration supplémentaire
 
 **Q3 : Compléter la fonction `tp()` de [tp.c](./tp.c) pour tester le code
@@ -103,6 +107,13 @@ debug("after: 0x%x\n", *ptr_in_reserved_mem);                // check
 ```
 Le comportement observé semble-t-il cohérent ?
 
+
+<span style="color:#ff7575">Oui, la valeur ne change pas quand on essaye de taper la reservée</span>
+
 **Q4 : Compléter la fonction `tp()` de [tp.c](./tp.c) pour essayer de lire ou
   écrire à une adresse en dehors de la mémoire physique disponible (128 MB).
   Que se passe-t-il ? Comment pourrait-on l'expliquer ?**
+
+
+
+<span style="color:#ff7575">ça fait 0, ça retourne une valeur indéfinie</span>

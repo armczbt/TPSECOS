@@ -1,9 +1,9 @@
 #!/usr/bin/make -f
 
 MAKEFLAGS  := --no-print-directory
-CC         := $(shell which gcc)
-CPP        := $(shell which cpp)
-LD         := $(shell which ld)
+CC         := $(shell which i686-linux-gnu-gcc-10)
+CPP        := $(shell which i686-linux-gnu-cpp-10)
+LD         := $(shell which i686-linux-gnu-ld)
 RM         := $(shell which rm)
 FIND       := $(shell which find)
 GIT        := $(shell which git)

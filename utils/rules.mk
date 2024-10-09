@@ -40,14 +40,14 @@ endef
 %.d: %.s
 	@$(depend)
 %.o: %.c
-	@$(compile)
+	$(compile)
 %.o: %.s
-	@$(assemble)
+	$(assemble)
 
 all:$(TARGET)
 
 $(TARGET): $(objects)
-	@$(link)
+	$(link)
 
 dependencies := $(objects:.o=.d)
 
