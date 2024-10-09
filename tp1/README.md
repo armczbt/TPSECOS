@@ -54,9 +54,12 @@ point d'entrée du noyau.
 * Le segment de pile (sélecteur ss)
 * D'autres segments (sélecteurs autres : es, fs, gs, etc.)
 
+ <span style='color:red'>Entrée 0 non utilisée, Entrée 1 utlisée pour le code, Entrée 2 utilisée pour les données</span>
+
 **Q4 : Que constate-t-on ? Que dire de la ségrégation mémoire mise en place
   par défaut par GRUB avec une telle configuration ?**
 
+<span style='color:red'>On voit que Entrée 1 0xb donc bon type pour du code (XRA) et Entrée 2 0x3 (RWA) bon pour des data</span>
 
 ## Une première reconfiguration de la GDT : en mode "flat"
 
