@@ -111,6 +111,7 @@ qu'elle puisse gérer l'exception #BP. Le but est de ne pas modifier
 
 Quand une interruption arrive, on empile les flags, cs, code error etc. Mais le ret ne dépile qu'un seul truc et c'est pour ça qu'on a une erreur
 Il faut tout dépiler avec iret
+
   ---
 
 
@@ -145,7 +146,10 @@ pour comparer cette valeur à une adresse de votre noyau.**
   l'interruption ? L'implémenter en assembleur inline dans  `bp_handler`.**
 
   ---
+  ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png)
+  
 Tout le contexte (general purposes) n'est pas save, donc il faut le save avec pusha et le pop avec popa
+
   ---
 
 **Q9\* : Par quelle instruction doit se terminer la routine pour que le noyau
@@ -153,6 +157,7 @@ Tout le contexte (general purposes) n'est pas save, donc il faut le save avec pu
   `bp_handler`.**
 
   ---
+  ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png)
 
   iret
 
