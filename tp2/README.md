@@ -90,6 +90,31 @@ qu'elle puisse gérer l'exception #BP. Le but est de ne pas modifier
   impact sur la pile ? Est-ce cohérent avec ce qui était sur la pile au
   moment de l'arrivée d'une interruption ?**
 
+  ---
+
+ ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png) Commande pour utiliser : objdump tp.o -D > dis
+
+ Trace du objdump pour BP_Handler:
+```
+ 00000000 <bp_handler>:
+   0:	55                   	push   %ebp
+   1:	89 e5                	mov    %esp,%ebp
+   3:	83 ec 08             	sub    $0x8,%esp
+   6:	83 ec 0c             	sub    $0xc,%esp
+   9:	68 00 00 00 00       	push   $0x0
+   e:	e8 fc ff ff ff       	call   f <bp_handler+0xf>
+  13:	83 c4 10             	add    $0x10,%esp
+  16:	90                   	nop
+  17:	c9                   	leave  
+  18:	c3                   	ret    
+```
+
+Quand une interruption arrive, on empile les flags, cs, code error etc. Mais le ret ne dépile qu'un seul truc et c'est pour ça qu'on a une erreur
+Il faut tout dépiler avec iret
+  ---
+
+
+
 ### Deuxième essai : via l'assembleur inline
 
 L'idée est de réécrire `bp_handler` en assembleur inline pour éviter l'écueil
@@ -105,13 +130,33 @@ de l'essai précédent.
 **Quelle signification cette valeur a-t-elle ? S'aider à nouveau de `objdump -D`
 pour comparer cette valeur à une adresse de votre noyau.**
 
+---
+
+ ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png)
+
+```
+  3040ba:	e8 24 ff ff ff       	call   303fe3 <bp_trigger>
+  3040bf:	83 ec 0c             	sub    $0xc,%esp
+```
+---
+
 **Q8\* : Qu'est-ce qui n'est pas stocké par le CPU à l'arrivée d'une
   interruption et qu'il est impératif de sauvegarder avant tout traitement de
   l'interruption ? L'implémenter en assembleur inline dans  `bp_handler`.**
 
+  ---
+Tout le contexte (general purposes) n'est pas save, donc il faut le save avec pusha et le pop avec popa
+  ---
+
 **Q9\* : Par quelle instruction doit se terminer la routine pour que le noyau
   rende la main à la fonction tp() ? L'implémenter en assembleur inline dans
   `bp_handler`.**
+
+  ---
+
+  iret
+
+  ---
 
 **Q10 : Tester que le retour du traitement de l'interruption s'est effectué
   correctement en affichant un message de debug dans la fonction `bp_trigger()` 
